@@ -13,15 +13,15 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
   const router = useRouter()
 
-  useEffect(()=>{
-    const getUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
-      if(user){
-        router.replace('/')
-      }
-    }
-    getUser()
-  },[])
+  // useEffect(()=>{
+  //   const getUser = async () => {
+  //     const { data: { user } } = await supabase.auth.getUser()
+  //     if(user){
+  //       router.replace('/')
+  //     }
+  //   }
+  //   getUser()
+  // },[])
 
   const handleLogin = async () => {
     try {

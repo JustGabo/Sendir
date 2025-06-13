@@ -2,7 +2,7 @@
 import { useAuth } from '../context/AuthContext';
 import { redirect } from 'next/navigation';
 
-export default function ProtectedLayout({
+export default function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -17,9 +17,9 @@ export default function ProtectedLayout({
     );
   }
 
-  if (!user) {
-    redirect('/login');
+  if (user) {
+    redirect('/dashboard');
   }
 
   return <>{children}</>;
-}
+} 

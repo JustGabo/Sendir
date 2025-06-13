@@ -1,13 +1,5 @@
-import React from 'react';
-import { AuthProvider } from './context/AuthContext';
-import DashboardScreen from './(protected)/dashboard/page';
+import { redirect } from 'next/navigation';
 
-export default function App() {
-  return (
-    <div>
-      <AuthProvider>
-      <DashboardScreen />
-    </AuthProvider>
-    </div>
-  );
+export default function Home() {
+  redirect('/dashboard');
 }

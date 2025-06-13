@@ -87,13 +87,13 @@ const DashboardPage = () => {
                 <p className="text-sm text-gray-500">{user?.user_metadata?.matricula}</p>
               </div>
             </div>
-            {/* <button
+            <button
               onClick={logout}
               className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
             >
               <LogOut className="h-4 w-4 mr-2" />
               Cerrar sesión
-            </button> */}
+            </button>
           </div>
         </div>
       </header>
