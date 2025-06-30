@@ -25,6 +25,27 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
     return `${day}/${month}/${year}`;
   };
 
+  const formatScore = (score: string | null): { isNumeric: boolean; value: string } => {
+    if (!score) return { isNumeric: false, value: '0' };
+    
+    // Reemplazar comas por puntos para manejar decimales
+    const normalizedScore = score.replace(',', '.');
+    
+    // Verificar si es un número válido
+    const numericValue = parseFloat(normalizedScore);
+    
+    if (!isNaN(numericValue)) {
+      // Es un número, dar formato con máximo 2 decimales
+      return {
+        isNumeric: true,
+        value: numericValue.toFixed(Math.min(2, (normalizedScore.split('.')[1] || '').length))
+      };
+    }
+    
+    // No es un número, devolver el string original
+    return { isNumeric: false, value: score };
+  };
+
   const getStatusColor = (status: string | null): string => {
     if (!status) return 'bg-gray-100 text-gray-800';
     switch (status.toLowerCase()) {
@@ -53,13 +74,15 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
     }
   };
 
+  const scoreInfo = formatScore(task.puntuacion);
+
   return (
-    <div className="bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200">
+    <div className="bg-[#f9f9f9] rounded-xl border border-gray-200 shadow-xs hover:shadow-md transition-shadow duration-200">
       <div className="p-5">
         {/* Header */}
         <div className="flex items-start justify-between mb-4">
           <div>
-            <h3 className="text-base font-medium text-gray-900 mb-1">
+            <h3 className="text-base font-semibold text-[#020608] mb-1">
               {task.info || 'Sin descripción'}
             </h3>
             {/* <div className="flex items-center text-sm text-gray-500">
@@ -68,17 +91,20 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
             </div> */}
           </div>
           {task.puntuacion && (
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-              <Star className="h-3 w-3 mr-1" /> {task.puntuacion}
+            <div className='flex px-2.5 rounded-full py-1 gap-[2px] max-w-[50px] items-center bg-[#DBF1FB] text-[#427B82]'>
+              {scoreInfo.isNumeric && <Star className="h-2.5 w-2.5 mb-[0.5px]" strokeWidth={3} />}
+              <span className="text-xs line-clamp-1  font-semibold">
+               {task.puntuacion}
             </span>
+            </div>
           )}
         </div>
 
         {/* Details */}
         <div className="flex flex-col gap-5">
           <div className="flex items-start">
-            <Info className="h-4 w-4 mr-2 mt-1 flex-shrink-0" />
-            <p className="text-sm text-gray-500 line-clamp-2 overflow-hidden">
+            <Info className="h-4 w-4 mr-2 mt-1 text-[#A1A9AF] flex-shrink-0" />
+            <p className="text-sm text-[#A1A9AF] line-clamp-2 overflow-hidden">
               {task.descripcion || 'No asignado'}
             </p>
           </div>
@@ -90,9 +116,9 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
             <Clock className="h-4 w-4 mr-2" />
             Sección {task.seccion || 'N/A'}
           </div> */}
-          <div className="flex items-center text-sm text-gray-600 gap-1">
+          <div className="flex items-center text-xs text-gray-600 gap-1">
             <Calendar className="h-4 w-4" />
-            <p className='text-sm text-gray-600 mt-[1px] tracking-wide'>{formatDate(task.fechaEntrega)}</p>
+            <p className='text-gray-600 mt-[1px] tracking-wide'>{formatDate(task.fechaEntrega)}</p>
           </div>
         </div>
 

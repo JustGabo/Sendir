@@ -1,0 +1,4 @@
+triggers:
+  - cron: "0 3 * * *"
+    name: daily-homework-sync
+  
