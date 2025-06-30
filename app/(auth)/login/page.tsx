@@ -13,16 +13,6 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
   const router = useRouter()
 
-  // useEffect(()=>{
-  //   const getUser = async () => {
-  //     const { data: { user } } = await supabase.auth.getUser()
-  //     if(user){
-  //       router.replace('/')
-  //     }
-  //   }
-  //   getUser()
-  // },[])
-
   const handleLogin = async () => {
     try {
       if (!email || !password) {
@@ -54,15 +44,23 @@ export default function LoginPage() {
         throw new Error('Credenciales inválidas o usuario no registrado')
       }
 
-      // Obtenemos la matrícula desde el user_metadata
-      const matricula = user.user_metadata?.matricula
+      // Obtenemos las credenciales académicas desde la tabla nueva
+      const { data: credentials, error: credError } = await supabase
+        .from('user_academic_credentials')
+        .select('matricula, password')
+        .eq('user_id', user.id)
+        .single()
 
-      if (!matricula) {
-        throw new Error('No se encontró la matrícula en el perfil')
+      if (credError || !credentials) {
+        throw new Error('No se encontraron credenciales académicas')
       }
 
+      const { matricula, password: academicPassword } = credentials
+
       // Llamamos a syncTareas igual que en el signup
-      await syncTareas({ matricula, password, user_id: user.id })
+      // await syncTareas({ matricula, password: academicPassword, user_id: user.id })
+      await syncTareas({ user_id: user.id });
+
 
       router.replace('/')
     } catch (error: any) {

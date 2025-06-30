@@ -11,36 +11,37 @@ export default function SignUpPage() {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const router = useRouter();
 
   const handleSignUp = async () => {
     try {
       if (!email || !matricula || !password) {
-        alert('Por favor complete todos los campos');
+        setErrorMessage('Por favor complete todos los campos');
         return;
       }
 
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(email)) {
-        alert('Introduce un email válido');
+        setErrorMessage('Introduce un email válido');
         return;
       }
 
       const matriculaRegex = /^\d{2}-[A-Z]{4}-\d{1}-\d{3}$/;
       if (!matriculaRegex.test(matricula)) {
-        alert('La matrícula debe tener el formato: YY-XXXX-X-XXX\nEjemplo: 23-EISN-9-123');
+        setErrorMessage('La matrícula debe tener el formato: YY-XXXX-X-XXX\nEjemplo: 23-EISN-9-123');
         return;
       }
 
       const passwordErrors = validatePassword(password);
       if (passwordErrors.length > 0) {
-        alert('La contraseña debe tener:\n' + passwordErrors.join('\n'));
+        setErrorMessage('La contraseña debe tener:\n' + passwordErrors.join('\n'));
         return;
       }
 
       setIsLoading(true);
 
-      // Primero login en backend para validar las credenciales
+      // Validación en backend opcional
       const backendResponse = await fetch('https://homework-backend-production.up.railway.app/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -50,39 +51,53 @@ export default function SignUpPage() {
       const userData = await backendResponse.json();
 
       if (!backendResponse.ok) {
-        throw new Error(userData.message || 'Credenciales inválidas');
+        setErrorMessage(userData.message || 'Credenciales inválidas');
+        return;
       }
 
       const { nombreCompleto, primerNombre } = userData;
 
-      // Luego creamos el usuario en Supabase
+      // Crear usuario en Supabase (Auth)
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
           data: {
-            matricula,
             email_verified: true,
             nombre_completo: nombreCompleto,
             primer_nombre: primerNombre,
+            matricula, // 🔥 aquí agregamos la matrícula al user_metadata
           },
         },
       });
 
       if (error) {
-        throw error;
+        setErrorMessage(error.message || 'No se pudo completar el registro');
+        return;
       }
 
-      const supabaseUserId = data?.user?.id; // ESTE es el user_id de Supabase
+      const supabaseUserId = data?.user?.id;
 
-      // Ahora sincronizamos las tareas con el user_id correcto
-      // @ts-ignore
-      await syncTareas({ matricula, password, user_id: supabaseUserId });
+      // Insertar credenciales académicas en la tabla nueva
+      const { error: credError } = await supabase
+        .from('user_academic_credentials')
+        .insert({
+          user_id: supabaseUserId,
+          matricula,
+          password,
+        });
 
-      alert('Tu cuenta ha sido creada correctamente');
+      if (credError) {
+        setErrorMessage(credError.message || 'No se pudo completar el registro');
+        return;
+      }
+
+      // Sincronizar tareas
+      await syncTareas({ user_id: supabaseUserId! });
+
       router.replace('/login');
     } catch (error: any) {
-      alert(error.message || 'No se pudo completar el registro');
+      setErrorMessage(error.message || 'No se pudo completar el registro');
     } finally {
       setIsLoading(false);
     }
@@ -105,7 +120,8 @@ export default function SignUpPage() {
         <h1 className="text-3xl text-black font-bold mb-2">Register</h1>
         <p className="text-gray-800 mb-8">Create an account to get started on loate.</p>
 
-        <div className="space-y-6">
+        <div className="space-y-4 text-sm text-red-400">
+          {errorMessage && <p>{errorMessage}</p>}
           <div>
             <input
               type="email"
