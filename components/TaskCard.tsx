@@ -77,7 +77,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
   const scoreInfo = formatScore(task.puntuacion);
 
   return (
-    <div className="bg-[#f9f9f9] rounded-xl border border-gray-200 shadow-xs hover:shadow-md transition-shadow duration-200">
+    <div className="bg-[#f9f9f9] rounded-2xl shadow-xs border-[0.5px] hover:shadow-md transition-shadow duration-200">
       <div className="p-5">
         {/* Header */}
         <div className="flex items-start justify-between mb-4">
@@ -101,7 +101,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
         </div>
 
         {/* Details */}
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-4">
           <div className="flex items-start">
             <Info className="h-4 w-4 mr-2 mt-1 text-[#A1A9AF] flex-shrink-0" />
             <p className="text-sm text-[#A1A9AF] line-clamp-2 overflow-hidden">

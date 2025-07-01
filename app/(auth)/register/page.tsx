@@ -41,7 +41,6 @@ export default function SignUpPage() {
 
       setIsLoading(true);
 
-      // Validación en backend opcional
       const backendResponse = await fetch('https://homework-backend-production.up.railway.app/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -57,7 +56,6 @@ export default function SignUpPage() {
 
       const { nombreCompleto, primerNombre } = userData;
 
-      // Crear usuario en Supabase (Auth)
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
@@ -66,7 +64,7 @@ export default function SignUpPage() {
             email_verified: true,
             nombre_completo: nombreCompleto,
             primer_nombre: primerNombre,
-            matricula, // 🔥 aquí agregamos la matrícula al user_metadata
+            matricula,
           },
         },
       });
@@ -78,7 +76,6 @@ export default function SignUpPage() {
 
       const supabaseUserId = data?.user?.id;
 
-      // Insertar credenciales académicas en la tabla nueva
       const { error: credError } = await supabase
         .from('user_academic_credentials')
         .insert({
@@ -92,7 +89,6 @@ export default function SignUpPage() {
         return;
       }
 
-      // Sincronizar tareas
       await syncTareas({ user_id: supabaseUserId! });
 
       router.replace('/login');
@@ -126,7 +122,7 @@ export default function SignUpPage() {
             <input
               type="email"
               placeholder="Email"
-              className="w-full bg-gray-100 rounded-lg outline-none p-3 text-xs text-black"
+              className="w-full bg-gray-100 rounded-lg outline-none p-3 text-base text-black"
               value={email}
               onChange={(e) => setEmail(e.target.value.trim())}
             />
@@ -136,7 +132,7 @@ export default function SignUpPage() {
             <input
               type="text"
               placeholder="Matrícula"
-              className="w-full bg-gray-100 rounded-lg outline-none p-3 text-xs text-black"
+              className="w-full bg-gray-100 rounded-lg outline-none p-3 text-base text-black"
               value={matricula}
               onChange={(e) => {
                 const formatted = e.target.value.toUpperCase().replace(/\s/g, '');
@@ -150,14 +146,14 @@ export default function SignUpPage() {
             <input
               type={showPassword ? 'text' : 'password'}
               placeholder="Password"
-              className="w-full bg-gray-100 rounded-lg outline-none p-3 text-xs pr-12 text-black"
+              className="w-full bg-gray-100 rounded-lg outline-none p-3 text-base pr-12 text-black"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               maxLength={6}
             />
             <button
               type="button"
-              className="absolute right-4 top-2 text-neutral-500"
+              className="absolute right-4 top-2.5 text-neutral-500"
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? <Eye size={20} color="black" /> : <EyeOff size={20} color="black" />}

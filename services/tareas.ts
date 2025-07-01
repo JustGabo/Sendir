@@ -37,11 +37,9 @@ export const syncTareas = async ({ user_id }: SyncTareasParams): Promise<Tarea[]
       throw new Error(data?.tareas ? 'Error desconocido' : data as any);
     }
 
-    console.log('Tareas sincronizadas correctamente:', data.tareas);
     return data.tareas;
 
   } catch (error: any) {
-    console.error('Error al sincronizar tareas:', error.message);
     throw new Error(error.message || 'Error al sincronizar tareas');
   }
 };

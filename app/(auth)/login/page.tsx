@@ -94,7 +94,7 @@ export default function LoginPage() {
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value.trim())}
-              className="w-full rounded-lg bg-gray-100 p-3 text-xs outline-none focus:outline-none text-black"
+              className="w-full rounded-lg bg-gray-100 p-3 text-base outline-none focus:outline-none text-black"
             />
           </div>
 
@@ -105,11 +105,11 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               maxLength={6}
-              className="w-full rounded-lg bg-gray-100 p-3 text-xs outline-none focus:outline-none text-black"
+              className="w-full rounded-lg bg-gray-100 p-3 text-base outline-none focus:outline-none text-black"
             />
             <button
               type="button"
-              className="absolute top-2 right-3"
+              className="absolute top-2.5 right-3"
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? <Eye size={20} color="black" /> : <EyeOff size={20} color="black" />}
