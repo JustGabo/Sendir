@@ -12,7 +12,6 @@ serve(async (req) => {
     );
   }
 
-  console.log("Cron job ejecutado!");
 
   return new Response(
     JSON.stringify({ msg: "Cron job ejecutado correctamente" }),

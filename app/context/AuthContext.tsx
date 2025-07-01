@@ -21,7 +21,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const getSession = async () => {
       const { data, error } = await supabase.auth.getSession();
       if (error) {
-        console.error('Error getting session:', error);
         setLoading(false);
         return;
       }
