@@ -11,7 +11,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "ClassPing",
+  title: "Sendir",
   description: "Tu plataforma de tareas",
   viewport: {
     width: 'device-width',
