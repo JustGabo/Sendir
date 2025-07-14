@@ -79,7 +79,7 @@ const TasksCounter: React.FC<TasksCounterProps> = ({ tasks }) => {
                 </p>
                 <div className="flex items-end gap-[2px]">
                     <p className="text-white text-xl font-medium">{counts.thisMonth}</p>
-                    <p className="text-white text-xs mb-[2px] font-light">Tareas</p>
+                    <p className="text-white text-xs mb-[2px] font-light">{counts.thisMonth === 1 ? "Tarea" : "Tareas"}</p>
                 </div>
             </div>
 
@@ -89,7 +89,7 @@ const TasksCounter: React.FC<TasksCounterProps> = ({ tasks }) => {
                 </p>
                 <div className="flex items-end gap-[2px]">
                     <p className="text-white text-xl font-medium">{counts.thisWeek}</p>
-                    <p className="text-white text-xs mb-[2px] font-light">Tareas</p>
+                    <p className="text-white text-xs mb-[2px] font-light">{counts.thisWeek === 1 ? "Tarea" : "Tareas"}</p>
                 </div>
             </div>
 
@@ -99,7 +99,7 @@ const TasksCounter: React.FC<TasksCounterProps> = ({ tasks }) => {
                 </p>
                 <div className="flex items-end gap-[2px]">
                     <p className="text-white text-xl font-medium">{counts.today}</p>
-                    <p className="text-white text-xs mb-[2px] font-light">Tareas</p>
+                    <p className="text-white text-xs mb-[2px] font-light">{counts.today === 1 ? "Tarea" : "Tareas"}</p>
                 </div>
             </div>
         </div>

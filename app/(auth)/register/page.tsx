@@ -114,7 +114,7 @@ export default function SignUpPage() {
     <div className="min-h-screen bg-white flex items-center justify-center py-20 px-4">
       <div className="w-full max-w-md">
         <h1 className="text-3xl text-black font-bold mb-2">Register</h1>
-        <p className="text-gray-800 mb-8">Create an account to get started on loate.</p>
+        <p className="text-gray-800 mb-8">Crea una cuenta para empezar a usar la aplicación.</p>
 
         <div className="space-y-4 text-sm text-red-400">
           {errorMessage && <p>{errorMessage}</p>}
@@ -122,7 +122,7 @@ export default function SignUpPage() {
             <input
               type="email"
               placeholder="Email"
-              className="w-full bg-gray-100 rounded-lg outline-none p-3 text-base text-black"
+              className="w-full rounded-lg bg-none border border-gray-300 placeholder:text-sm  p-3 text-sm outline-none focus:outline-none text-black"
               value={email}
               onChange={(e) => setEmail(e.target.value.trim())}
             />
@@ -132,7 +132,7 @@ export default function SignUpPage() {
             <input
               type="text"
               placeholder="Matrícula"
-              className="w-full bg-gray-100 rounded-lg outline-none p-3 text-base text-black"
+              className="w-full rounded-lg bg-none border border-gray-300 placeholder:text-sm  p-3 text-sm outline-none focus:outline-none text-black"
               value={matricula}
               onChange={(e) => {
                 const formatted = e.target.value.toUpperCase().replace(/\s/g, '');
@@ -146,14 +146,14 @@ export default function SignUpPage() {
             <input
               type={showPassword ? 'text' : 'password'}
               placeholder="Password"
-              className="w-full bg-gray-100 rounded-lg outline-none p-3 text-base pr-12 text-black"
+              className="w-full rounded-lg bg-none border border-gray-300 placeholder:text-sm  p-3 text-sm outline-none focus:outline-none text-black"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               maxLength={6}
             />
             <button
               type="button"
-              className="absolute right-4 top-2.5 text-neutral-500"
+              className="absolute right-3 top-3.5 text-neutral-500"
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? <Eye size={20} color="black" /> : <EyeOff size={20} color="black" />}
@@ -171,8 +171,8 @@ export default function SignUpPage() {
             {isLoading ? 'Cargando...' : 'Register'}
           </button>
 
-          <div className="text-center">
-            <span className="text-sm text-neutral-500">Already have an account? </span>
+          <div className="text-center text-neutral-500 text-sm mt-4">
+            <span>¿Ya tienes una cuenta? </span>
             <button onClick={() => router.replace('/login')} className="text-blue-500 text-sm font-medium">
               Login
             </button>

@@ -94,7 +94,7 @@ export default function LoginPage() {
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value.trim())}
-              className="w-full rounded-lg bg-gray-100 p-3 text-base outline-none focus:outline-none text-black"
+              className="w-full rounded-lg bg-none border border-gray-300 placeholder:text-sm  p-3 text-sm outline-none focus:outline-none text-black"
             />
           </div>
 
@@ -105,11 +105,11 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               maxLength={6}
-              className="w-full rounded-lg bg-gray-100 p-3 text-base outline-none focus:outline-none text-black"
+              className="w-full rounded-lg bg-none border border-gray-300 placeholder:text-sm  p-3 text-sm outline-none focus:outline-none text-black"
             />
             <button
               type="button"
-              className="absolute top-2.5 right-3"
+              className="absolute top-3.5 right-3"
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? <Eye size={20} color="black" /> : <EyeOff size={20} color="black" />}
@@ -127,7 +127,7 @@ export default function LoginPage() {
           </button>
 
           <div className="text-center text-neutral-500 text-sm mt-4">
-            ¿No tienes cuenta?{' '}
+            <span>¿No tienes una cuenta? </span>
             <button onClick={() => router.replace('/register')} className="text-blue-500 font-medium">
               Regístrate
             </button>
