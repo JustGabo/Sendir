@@ -1,9 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { supabase } from '@/lib/supabaseClient';
 import { Eye, EyeOff } from 'lucide-react';
-import { syncTareas } from '@/services/tareas';
 
 export default function SignUpPage() {
   const [email, setEmail] = useState('');
@@ -41,59 +39,23 @@ export default function SignUpPage() {
 
       setIsLoading(true);
 
-      const backendResponse = await fetch('https://homework-backend-production.up.railway.app/login', {
+      const backendResponse = await fetch('https://api.sendir.app/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, matricula, password }),
       });
 
-      const userData = await backendResponse.json();
+      const result = await backendResponse.json();
 
       if (!backendResponse.ok) {
-        setErrorMessage(userData.message || 'Credenciales inválidas');
+        setErrorMessage(result.message || 'Error en el registro');
         return;
       }
 
-      const { nombreCompleto, primerNombre } = userData;
-
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: {
-            email_verified: true,
-            nombre_completo: nombreCompleto,
-            primer_nombre: primerNombre,
-            matricula,
-          },
-        },
-      });
-
-      if (error) {
-        setErrorMessage(error.message || 'No se pudo completar el registro');
-        return;
-      }
-
-      const supabaseUserId = data?.user?.id;
-
-      const { error: credError } = await supabase
-        .from('user_academic_credentials')
-        .insert({
-          user_id: supabaseUserId,
-          matricula,
-          password,
-        });
-
-      if (credError) {
-        setErrorMessage(credError.message || 'No se pudo completar el registro');
-        return;
-      }
-
-      await syncTareas({ user_id: supabaseUserId! });
-
+      // Registro exitoso, redirigir al login
       router.replace('/login');
     } catch (error: any) {
-      setErrorMessage(error.message || 'No se pudo completar el registro');
+      setErrorMessage('Error de conexión. Inténtalo de nuevo.');
     } finally {
       setIsLoading(false);
     }

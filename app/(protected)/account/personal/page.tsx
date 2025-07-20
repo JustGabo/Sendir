@@ -25,23 +25,47 @@ const PersonalInfoPage = () => {
     setNotification(null)
 
     try {
-      const { error } = await supabase.auth.updateUser({
+      // Validar email
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      if (!emailRegex.test(formData.email)) {
+        throw new Error('Introduce un email válido')
+      }
+
+      // Si el email cambió, actualizar email
+      if (formData.email !== user?.email) {
+        const { error: emailError } = await supabase.auth.updateUser({
+          email: formData.email
+        })
+
+        if (emailError) throw emailError
+
+        setNotification({
+          type: 'success',
+          message: 'Se ha enviado un email de confirmación a tu nueva dirección. Por favor, verifica tu nuevo email para completar el cambio.'
+        })
+      }
+
+      // Actualizar nombre completo
+      const { error: nameError } = await supabase.auth.updateUser({
         data: {
           nombre_completo: formData.nombreCompleto
         }
       })
 
-      if (error) throw error
+      if (nameError) throw nameError
 
-      setNotification({
-        type: 'success',
-        message: 'Información actualizada correctamente'
-      })
+      // Si solo se actualizó el nombre, mostrar mensaje diferente
+      if (formData.email === user?.email) {
+        setNotification({
+          type: 'success',
+          message: 'Información actualizada correctamente'
+        })
+      }
 
-      // Ocultar la notificación después de 3 segundos
+      // Ocultar la notificación después de 5 segundos
       setTimeout(() => {
         setNotification(null)
-      }, 3000)
+      }, 5000)
     } catch (error: any) {
       setNotification({
         type: 'error',
@@ -123,11 +147,13 @@ const PersonalInfoPage = () => {
                   type='email'
                   id='email'
                   value={formData.email}
-                  disabled
-                  className='mt-1 block w-full rounded-md border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-500 shadow-sm'
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
+                  className='mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm placeholder-gray-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500'
                 />
                 <p className='mt-1 text-xs text-gray-500'>
-                  El correo electrónico no se puede cambiar
+                  Al cambiar tu email, recibirás un enlace de confirmación
                 </p>
               </div>
 

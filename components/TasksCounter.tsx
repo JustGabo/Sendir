@@ -12,8 +12,8 @@ interface TasksCounterProps {
 
 const TasksCounter: React.FC<TasksCounterProps> = ({ tasks }) => {
     const parseFecha = (fecha: string) => {
-        // Convertir de "MM-DD-YYYY" a Date
-        const [month, day, year] = fecha.split('-').map(Number);
+        // Convertir de "DD-MM-YYYY" a Date
+        const [day, month, year] = fecha.split('-').map(Number);
         return new Date(year, month - 1, day); // month - 1 porque en JS los meses van de 0-11
     };
 

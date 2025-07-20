@@ -1,10 +1,8 @@
 'use client'
-
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
 import { Eye, EyeOff } from 'lucide-react'
-import { syncTareas } from '@/services/tareas'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
@@ -45,21 +43,21 @@ export default function LoginPage() {
       }
 
       // Obtenemos las credenciales académicas desde la tabla nueva
-      const { data: credentials, error: credError } = await supabase
-        .from('user_academic_credentials')
-        .select('matricula, password')
-        .eq('user_id', user.id)
-        .single()
+      // const { data: credentials, error: credError } = await supabase
+      //   .from('user_profiles')
+      //   .select('matricula, password')
+      //   .eq('user_id', user.id)
+      //   .single()
 
-      if (credError || !credentials) {
-        throw new Error('No se encontraron credenciales académicas')
-      }
+      // if (credError || !credentials) {
+      //   throw new Error('No se encontraron credenciales académicas')
+      // }
 
-      const { matricula, password: academicPassword } = credentials
+      // const { matricula, password: academicPassword } = credentials
 
-      // Llamamos a syncTareas igual que en el signup
-      // await syncTareas({ matricula, password: academicPassword, user_id: user.id })
-      await syncTareas({ user_id: user.id });
+      // // Llamamos a syncTareas igual que en el signup
+      // // await syncTareas({ matricula, password: academicPassword, user_id: user.id })
+      // await syncTareas({ user_id: user.id });
 
 
       router.replace('/')

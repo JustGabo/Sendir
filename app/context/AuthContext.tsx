@@ -8,6 +8,7 @@ interface AuthContextType {
   session: Session | null;
   logout: () => Promise<void>;
   loading: boolean;
+  isLoggingOut: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -16,6 +17,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   useEffect(() => {
     const getSession = async () => {
@@ -44,11 +46,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const logout = async () => {
-    await supabase.auth.signOut();
+    if (isLoggingOut) return; // Prevenir múltiples clicks
+    
+    setIsLoggingOut(true);
+    try {
+      await supabase.auth.signOut();
+    } finally {
+      setIsLoggingOut(false);
+    }
   };
 
   return (
-    <AuthContext.Provider value={{ user, session, logout, loading }}>
+    <AuthContext.Provider value={{ user, session, logout, loading, isLoggingOut }}>
       {children}
     </AuthContext.Provider>
   );
