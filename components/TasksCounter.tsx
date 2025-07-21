@@ -73,33 +73,33 @@ const TasksCounter: React.FC<TasksCounterProps> = ({ tasks }) => {
 
     return (
         <div className="grid grid-cols-3 items-center justify-center gap-2">
-            <div className="rounded-2xl bg-[#2C9AB0] w-full py-2 px-3 h-[90px] flex flex-col justify-between">
-                <p className="text-white text-xs pt-2 font-light">
+            <div className="rounded-2xl bg-[#2C9AB0] w-full py-2 px-3 h-[90px] lg:h-[150px] flex flex-col justify-between">
+                <p className="text-white text-xs lg:text-xl pt-2 font-light lg:font-medium">
                     Este mes
                 </p>
                 <div className="flex items-end gap-[2px]">
-                    <p className="text-white text-xl font-medium">{counts.thisMonth}</p>
-                    <p className="text-white text-xs mb-[2px] font-light">{counts.thisMonth === 1 ? "Tarea" : "Tareas"}</p>
+                    <p className="text-white text-xl lg:text-3xl font-medium">{counts.thisMonth}</p>
+                    <p className="text-white text-xs lg:text-sm mb-[2px] font-light">{counts.thisMonth === 1 ? "Tarea" : "Tareas"}</p>
                 </div>
             </div>
 
-            <div className="rounded-2xl bg-[#618199] w-full p-2 h-[90px] flex flex-col justify-between">
-                <p className="text-white text-xs pt-2 font-light">
+            <div className="rounded-2xl bg-[#618199] w-full p-2 h-[90px] lg:h-[150px] flex flex-col justify-between">
+                <p className="text-white text-xs lg:text-xl pt-2 font-light lg:font-medium">
                     Esta semana
                 </p>
                 <div className="flex items-end gap-[2px]">
-                    <p className="text-white text-xl font-medium">{counts.thisWeek}</p>
-                    <p className="text-white text-xs mb-[2px] font-light">{counts.thisWeek === 1 ? "Tarea" : "Tareas"}</p>
+                    <p className="text-white text-xl lg:text-3xl font-medium">{counts.thisWeek}</p>
+                    <p className="text-white text-xs lg:text-sm mb-[2px] font-light">{counts.thisWeek === 1 ? "Tarea" : "Tareas"}</p>
                 </div>
             </div>
 
-            <div className="rounded-2xl bg-[#8578D8] w-full p-2 h-[90px] flex flex-col justify-between">
-                <p className="text-white text-xs pt-2 font-light">
+            <div className="rounded-2xl bg-[#8578D8] w-full p-2 h-[90px] lg:h-[150px] flex flex-col justify-between">
+                <p className="text-white text-xs lg:text-xl pt-2 font-light lg:font-medium">
                     Hoy
                 </p>
                 <div className="flex items-end gap-[2px]">
-                    <p className="text-white text-xl font-medium">{counts.today}</p>
-                    <p className="text-white text-xs mb-[2px] font-light">{counts.today === 1 ? "Tarea" : "Tareas"}</p>
+                    <p className="text-white text-xl lg:text-3xl font-medium">{counts.today}</p>
+                    <p className="text-white text-xs lg:text-sm mb-[2px] font-light">{counts.today === 1 ? "Tarea" : "Tareas"}</p>
                 </div>
             </div>
         </div>

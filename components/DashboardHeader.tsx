@@ -25,13 +25,13 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({ name, greeting, matri
         <div className="flex justify-between items-center">
           <div className="flex items-center ">
             <div className="flex flex-col gap-1">
-              <h2 className="text-lg tracking- font-medium text-[#A1A9AF]">
+              <h2 className="text-lg lg:text-xl tracking- font-medium text-[#A1A9AF]">
                 {greeting}, <br />
-                <span className="text-2xl font-semibold text-[#020608]">
+                <span className="text-2xl lg:text-3xl font-semibold text-[#020608]">
                   {name}
                 </span>
               </h2>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs lg:text-sm text-gray-500">
                 {matricula}
               </p>
             </div>
@@ -50,7 +50,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({ name, greeting, matri
                 onClick={() => router.push("/account")}
                 className="w-full flex items-center gap-2 px-2 py-1.5 text-xs lg:text-sm text-black rounded-md transition-colors"
               >
-                <User className="h-4 w-4" />
+                <User className="h-4 w-4 lg:h-5 lg:w-5" />
                 Mi cuenta
               </button>
               <button
@@ -60,12 +60,12 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({ name, greeting, matri
               >
                 {isLoggingOut ? (
                   <>
-                    <Loader2 className="h-4 w-4 animate-spin" />
+                    <Loader2 className="h-4 w-4 lg:h-5 lg:w-5 animate-spin" />
                     Cerrando...
                   </>
                 ) : (
                   <>
-                    <LogOut className="h-4 w-4" />
+                    <LogOut className="h-4 w-4 lg:h-5 lg:w-5" />
                     Cerrar sesión
                   </>
                 )}

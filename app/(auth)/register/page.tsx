@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, EyeOff } from 'lucide-react';
+import { supabase } from '@/lib/supabaseClient';
 
 export default function SignUpPage() {
   const [email, setEmail] = useState('');
@@ -39,6 +40,7 @@ export default function SignUpPage() {
 
       setIsLoading(true);
 
+      // 1. Registro en el backend
       const backendResponse = await fetch('https://api.sendir.app/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -52,8 +54,25 @@ export default function SignUpPage() {
         return;
       }
 
-      // Registro exitoso, redirigir al login
-      router.replace('/login');
+      // 2. Registro exitoso, ahora hacer login automático en Supabase
+      const { data: { user }, error: loginError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (loginError || !user) {
+        setErrorMessage('Registro exitoso pero error al iniciar sesión. Por favor, inicia sesión manualmente.');
+        setTimeout(() => {
+          router.push('/login');
+        }, 2000);
+        return;
+      }
+
+      // 3. Login exitoso, esperar un momento y redirigir al dashboard
+      setTimeout(() => {
+        router.push('/dashboard');
+      }, 500);
+
     } catch (error: any) {
       setErrorMessage('Error de conexión. Inténtalo de nuevo.');
     } finally {
@@ -135,7 +154,7 @@ export default function SignUpPage() {
 
           <div className="text-center text-neutral-500 text-sm mt-4">
             <span>¿Ya tienes una cuenta? </span>
-            <button onClick={() => router.replace('/login')} className="text-blue-500 text-sm font-medium">
+            <button onClick={() => router.push('/login')} className="text-blue-500 text-sm font-medium">
               Login
             </button>
           </div>
