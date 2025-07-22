@@ -37,7 +37,7 @@ const DashboardClient: React.FC = () => {
         <div className="">
           <div className="flex items-center justify-between">
             <div className="flex items-center justify-start gap-2">
-              <h3 className="text-sm font-semibold text-gray-700">
+              <h3 className="text-sm lg:text-base font-semibold text-gray-700">
                 Tareas Asignadas
               </h3>
             </div>

@@ -1,0 +1,20 @@
+{
+  "name": "Sendir - Tu Plataforma de Tareas Universitarias",
+  "short_name": "Sendir",
+  "description": "Gestiona tus tareas universitarias de manera eficiente. Sincronización automática con tu universidad.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#E9F1FA",
+  "theme_color": "#2C9AB0",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/sendir-icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["education", "productivity", "utilities"],
+  "lang": "es",
+  "dir": "ltr"
+} 

@@ -15,10 +15,10 @@ const SubscriptionCTA: React.FC<SubscriptionCTAProps> = ({ userId }) => {
       <div className="rounded-full bg-blue-50 p-3 w-12 h-12 mx-auto mb-4 flex items-center justify-center">
         <Sparkles className="h-6 w-6 text-blue-500" />
       </div>
-      <h3 className="text-sm font-medium text-gray-900 mb-1">
+      <h3 className="text-sm lg:text-base font-medium text-gray-900 mb-1">
         Suscríbete para ver tus tareas
       </h3>
-      <p className="text-sm text-gray-500 mb-4">
+      <p className="text-sm lg:text-base text-gray-500 mb-4">
         Obtén acceso a todas tus tareas y funciones premium
       </p>
       <button

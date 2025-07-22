@@ -1,6 +1,7 @@
 "use client"
 import { useAuth } from '../context/AuthContext';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function ProtectedLayout({
   children,
@@ -8,6 +9,13 @@ export default function ProtectedLayout({
   children: React.ReactNode;
 }) {
   const { user, loading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.replace('/login');
+    }
+  }, [user, loading, router]);
 
   if (loading) {
     return (
@@ -18,7 +26,11 @@ export default function ProtectedLayout({
   }
 
   if (!user) {
-    redirect('/login');
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+      </div>
+    );
   }
 
   return <>{children}</>;

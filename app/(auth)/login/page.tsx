@@ -9,28 +9,30 @@ export default function LoginPage() {
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
   const router = useRouter()
 
   const handleLogin = async () => {
     try {
       if (!email || !password) {
-        alert('Por favor complete todos los campos')
+        setErrorMessage('Por favor complete todos los campos')
         return
       }
 
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
       if (!emailRegex.test(email)) {
-        alert('Introduce un email válido')
+        setErrorMessage('Introduce un email válido')
         return
       }
 
       const passwordErrors = validatePassword(password)
       if (passwordErrors.length > 0) {
-        alert('La contraseña debe tener:\n' + passwordErrors.join('\n'))
+        setErrorMessage('La contraseña debe tener:\n' + passwordErrors.join('\n'))
         return
       }
 
       setIsLoading(true)
+      setErrorMessage('')
 
       // Login en Supabase
       const { data: { user }, error } = await supabase.auth.signInWithPassword({
@@ -42,27 +44,13 @@ export default function LoginPage() {
         throw new Error('Credenciales inválidas o usuario no registrado')
       }
 
-      // Obtenemos las credenciales académicas desde la tabla nueva
-      // const { data: credentials, error: credError } = await supabase
-      //   .from('user_profiles')
-      //   .select('matricula, password')
-      //   .eq('user_id', user.id)
-      //   .single()
+      // Login exitoso, esperar un momento y redirigir al dashboard
+      setTimeout(() => {
+        router.push('/dashboard')
+      }, 500)
 
-      // if (credError || !credentials) {
-      //   throw new Error('No se encontraron credenciales académicas')
-      // }
-
-      // const { matricula, password: academicPassword } = credentials
-
-      // // Llamamos a syncTareas igual que en el signup
-      // // await syncTareas({ matricula, password: academicPassword, user_id: user.id })
-      // await syncTareas({ user_id: user.id });
-
-
-      router.replace('/')
     } catch (error: any) {
-      alert(error.message || 'No se pudo iniciar sesión')
+      setErrorMessage(error.message || 'No se pudo iniciar sesión')
     } finally {
       setIsLoading(false)
     }
@@ -86,6 +74,12 @@ export default function LoginPage() {
         <p className="text-gray-800 mb-8">Inicia sesión con tu email y contraseña.</p>
 
         <div className="space-y-4">
+          {errorMessage && (
+            <div className="text-red-500 text-sm bg-red-50 p-3 rounded-lg">
+              {errorMessage}
+            </div>
+          )}
+          
           <div>
             <input
               type="email"
@@ -126,7 +120,7 @@ export default function LoginPage() {
 
           <div className="text-center text-neutral-500 text-sm mt-4">
             <span>¿No tienes una cuenta? </span>
-            <button onClick={() => router.replace('/register')} className="text-blue-500 font-medium">
+            <button onClick={() => router.push('/register')} className="text-blue-500 font-medium">
               Regístrate
             </button>
           </div>
